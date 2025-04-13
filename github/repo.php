@@ -27,9 +27,9 @@ $repo = $_GET['repo'] ?? '';
         echo '<p><strong>描述：</strong>'.($repo_info['description'] ?? '无').'</p>';
         echo '<p><strong>链接：</strong><a href="'.$repo_info['html_url'].'">访问仓库</a></p>';
         echo '<p><strong>许可证：</strong>'.($repo_info['license']['name'] ?? '无').'</p>';
-        echo '<p>Star '.number_format($repo_info['stargazers_count']).'</p>';
-        echo '<p>Watching '.number_format($repo_info['subscribers_count']).'</p>';
-        echo '<p>Fork '.number_format($repo_info['forks_count']).'</p>';
+        echo '<p><strong>Star：</strong> '.number_format($repo_info['stargazers_count']).'</p>';
+        echo '<p><strong>Watching：</strong> '.number_format($repo_info['subscribers_count']).'</p>';
+        echo '<p><strong>Fork：</strong> '.number_format($repo_info['forks_count']).'</p>';
         echo '</div>';
 
         $readme = json_decode(file_get_contents($readme_url, false, $context), true);
