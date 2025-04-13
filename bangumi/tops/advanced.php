@@ -44,7 +44,6 @@ echo <<<HTML
                     <option value="">全年</option>
 HTML;
 
-// 生成月份选项
 for ($i = 1; $i <= 12; $i++) {
     $month_name = sprintf("%02d月", $i);
     echo "<option value=\"$i\">$month_name</option>";
@@ -54,7 +53,6 @@ echo <<<HTML
                 </select>
             </div>
 
-            <!-- 提交按钮 -->
             <div class="form-group">
                 <button type="submit" 
                         class="main-btn"

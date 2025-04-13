@@ -2,7 +2,6 @@
 require_once __DIR__ . '/../functions.php';
 
 try {
-    // 验证基础参数
     if (empty($_GET['keyword']) || empty($_GET['type'])) {
         throw new Exception('缺少必要参数');
     }
@@ -12,7 +11,6 @@ try {
     $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
     $start = ($current_page - 1) * 4;
 
-    // 构建API请求
     $api_url = sprintf(
         "https://api.bgm.tv/search/subject/%s?type=%d&responseGroup=large&max_results=4&start=%d",
         urlencode($keyword),
@@ -24,7 +22,6 @@ try {
     $total = $response['results'] ?? 0;
     $items = $response['list'] ?? [];
 
-    // 生成结果列表
     $items_html = '';
     foreach ($items as $item) {
         $items_html .= sprintf('
@@ -53,7 +50,6 @@ try {
         );
     }
 
-    // 分页处理
     $total_pages = ceil($total / 4);
     $query_params = http_build_query([
         'keyword' => $keyword,

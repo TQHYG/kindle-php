@@ -2,30 +2,25 @@
 require_once __DIR__ . '/../functions.php';
 
 try {
-    // 获取参数并验证
     $type = isset($_GET['type']) ? intval($_GET['type']) : 2;
     $year = isset($_GET['year']) ? intval($_GET['year']) : null;
     $month = isset($_GET['month']) ? intval($_GET['month']) : null;
     $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
     $offset = ($current_page - 1) * 4;
 
-    // 构建API URL
     $api_url = "https://api.bgm.tv/v0/subjects?type={$type}&sort=rank";
     if ($year) $api_url .= "&year={$year}";
     if ($month) $api_url .= "&month={$month}";
     $api_url .= "&limit=4&offset={$offset}";
 
-    // 获取API数据
     $response = cached_fetch($api_url);
     if (!isset($response['data'])) throw new Exception('无效的API响应');
 
-    // 处理分页参数
     $total = $response['total'] ?? 0;
     $total_pages = ceil($total / 4);
     $prev_page = max(1, $current_page - 1);
     $next_page = min($total_pages, $current_page + 1);
 
-    // 生成分页链接
     $query_params = http_build_query([
         'type' => $type,
         'year' => $year,
@@ -44,7 +39,6 @@ try {
                         $next_page);
     }
 
-    // 生成页面内容
     $topbar = generate_topbar('排行榜详情');
     $items_html = '';
 
