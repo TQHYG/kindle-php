@@ -1,0 +1,67 @@
+.button-container {
+    width: 80%;
+    margin: 30px auto;
+    text-align: center;
+}
+
+.button-row {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.big-button {
+    display: inline-block;
+    width: 20%;
+    margin: 0 1%;
+    padding: 20px 0;
+    border: 2px solid #333;
+    background: #f5f5f5;
+    text-align: center;
+    font-size: 1.4em;
+    text-decoration: none;
+    color: #333;
+}
+
+.custom-form {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.time-input {
+    width: 60%;
+    padding: 18px;
+    font-size: 1.4em;
+    border: 2px solid #333;
+    vertical-align: middle;
+}
+
+.submit-btn {
+    width: 20%;
+    padding: 18px 0;
+    font-size: 1.4em;
+    border: 2px solid #333;
+    background: #f5f5f5;
+    vertical-align: middle;
+}
+
+#countdown {
+    text-align: center;
+    font-size: 5em;
+    margin: 50px 0;
+    font-family: monospace;
+    color: #000;
+}
+
+.reset-button {
+    display: inline-block;
+    width: 20%;
+    margin: 0 40%;
+    padding: 20px 0;
+    border: 2px solid #333;
+    background: #f5f5f5;
+    text-align: center;
+    font-size: 1.4em;
+    text-decoration: none;
+    color: #333;
+}

@@ -1,0 +1,100 @@
+/* 全局基础样式 */
+body {
+    font-family: sans-serif;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/*全局标题*/
+.title {
+    text-align: center;
+    border-bottom: 1px solid #333;
+    padding-bottom: 15px;
+    margin: 30px 0;
+}
+
+.top-bar {
+    overflow: hidden;
+    border-bottom: 2px solid #333;
+    padding: 12px 15px;
+    background: #fff;
+}
+
+.nav-btn {
+    display: inline-block;
+    color: #000000;
+    text-decoration: none !important;
+    border: 1px solid #666;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-right: 8px;
+    font-size: 1.1em;
+    vertical-align: middle;
+}
+
+.divider {
+    color: #000000;
+    margin: 0 10px;
+    vertical-align: middle;
+}
+
+.title-wrapper {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: middle;
+    overflow: hidden;
+    max-width: 60%;
+}
+
+.page-title {
+    display: block;
+    font-size: 1.3em;
+    max-width: 100%;
+    margin: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.error-title {
+    color: #cc0000;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.error-details {
+    border: 1px solid #ffcccc;
+    padding: 15px;
+    margin: 20px 0;
+    background: #fffafa;
+}
+
+.error-details p {
+    margin: 8px 0;
+    word-break: break-all;
+}
+
+.error-actions {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.error-actions .btn {
+    display: inline-block;
+    width: auto;
+    margin: 0 10px;
+    padding: 10px 25px;
+}
+
+.error-details p:nth-of-type(2) {
+    color: #666;
+    font-size: 0.9em;
+}
+
+.error-actions .btn {
+    margin: 5px;
+    min-width: 120px;
+}
