@@ -47,18 +47,21 @@
 .code-block {
     background: #f6f8fa;
     border: 1px solid #ddd;
-    padding: 8px;
-    margin: 10px 0;
-    overflow-x: auto;
+    padding: 10px;
+    margin: 15px 0;
+    white-space: pre-wrap;  
+    word-wrap: break-word;  
     font-family: monospace;
-    white-space: pre-wrap;
+    font-size: 0.9em;
+    line-height: 1.4;
 }
 
 .markdown-body code {
-    background: #f6f8fa;
-    padding: 2px 4px;
-    border-radius: 3px;
-    border: 1px solid #ddd;
+    white-space: pre-wrap;
+    word-break: break-all;
+    display: inline-block;
+    max-width: 100%;
+    vertical-align: middle;
 }
 
 .markdown-body blockquote {
