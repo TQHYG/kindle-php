@@ -1,5 +1,4 @@
 <?php
-// article.php
 require_once 'functions.php';
 
 $subjectId = isset($_GET['id']) ? (int)$_GET['id'] : 0;
@@ -39,7 +38,7 @@ $typeNames = [
 ];
 
 
-$type = $data['type'] ?? 2; // 默认设为动画类型
+$type = $data['type'] ?? 2; 
 $collection = $data['collection'] ?? [];
 
 $verbMap = [
@@ -61,11 +60,10 @@ $ratingData = $data['rating']['count'] ?? [];
 $totalVotes = array_sum($ratingData);
 $maxVotes = max($ratingData ?: [1]); 
 
-// 处理Infobox
+
 $infobox = [];
 foreach ($data['infobox'] ?? [] as $item) {
     $value = $item['value'];
-    // 链接识别
     if (filter_var($value, FILTER_VALIDATE_URL)) {
         $value = '<a href="' . htmlspecialchars($value) . '" target="_blank">' . htmlspecialchars($value) . '</a>';
     }
@@ -86,7 +84,6 @@ foreach ($data['infobox'] ?? [] as $item) {
     <?= generate_topbar(htmlspecialchars(($data['name_cn'] ?? '') . " (" . $data['name'] . ")")) ?>
     
     <div class="article-container">
-        <!-- 左侧栏 -->
         <div class="left-col">
             <img src="<?= htmlspecialchars($data['images']['common'] ?? 'placeholder.jpg') ?>" 
                  alt="封面" 
@@ -119,7 +116,6 @@ foreach ($data['infobox'] ?? [] as $item) {
             </div>
         </div>
         
-        <!-- 右侧栏 -->
         <div class="right-col">
             <div class="section">
                 <h2><?= htmlspecialchars($data['name_cn'] ?? $data['name']) ?></h2>
@@ -153,7 +149,6 @@ foreach ($data['infobox'] ?? [] as $item) {
                 </table>
             </div>
 
-            <!-- 评分板块 -->
             <div class="section">
                 <h3>评分详情</h3>
                 <div class="rating-box">
@@ -185,7 +180,6 @@ foreach ($data['infobox'] ?? [] as $item) {
             </div>
 
             
-            <!-- 标签云 -->
             <?php if (!empty($data['tags'])): ?>
             <div class="section">
                 <h3>作品标签</h3>

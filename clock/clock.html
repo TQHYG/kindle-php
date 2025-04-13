@@ -40,7 +40,6 @@
     </div>
 
     <script>
-        // 创建XMLHttpRequest对象
         function createXHR() {
             var xhr = null;
             if (window.XMLHttpRequest) {
@@ -51,7 +50,6 @@
             return xhr;
         }
 
-        // 时钟模块
         function clock() {
             var date = new Date()
             var utc8DiffMinutes = date.getTimezoneOffset() + 480

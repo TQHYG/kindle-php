@@ -65,7 +65,6 @@ try {
 <body>
     <?= generate_topbar("每日放送") ?>
     
-    <!-- 星期导航栏 -->
     <div class="week-nav">
         <?php for ($day=1; $day<=7; $day++): ?>
             <a href="?day=<?= $day ?>" 
@@ -77,7 +76,6 @@ try {
         <?php endfor; ?>
     </div>
 
-    <!-- 番剧列表 -->
     <div class="bangumi-list">
         <?php if (!empty($bangumiList)): ?>
             <?php foreach ($bangumiList as $item): ?>

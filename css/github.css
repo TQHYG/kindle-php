@@ -1,0 +1,100 @@
+/* github.css */
+.content {
+    margin: 20px 0;
+    font-size: 0.9em;
+}
+
+.search-form {
+    margin: 30px 0;
+}
+
+.search-input {
+    width: 70%;
+    padding: 15px;
+    font-size: 1.1em;
+    border: 2px solid #666;
+}
+
+.search-btn {
+    font-size: 1.1em;
+    padding: 15px 15px;
+    background: #eee;
+    border: 2px solid #666;
+    cursor: pointer;
+}
+
+.repo-info {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.repo-info p {
+    margin: 8px 0;
+}
+
+.markdown-body {
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+.markdown-body h1, 
+.markdown-body h2 {
+    border-bottom: 2px solid #eee;
+    padding-bottom: 0.3em;
+}
+
+.code-block {
+    background: #f6f8fa;
+    border: 1px solid #ddd;
+    padding: 8px;
+    margin: 10px 0;
+    overflow-x: auto;
+    font-family: monospace;
+    white-space: pre-wrap;
+}
+
+.markdown-body code {
+    background: #f6f8fa;
+    padding: 2px 4px;
+    border-radius: 3px;
+    border: 1px solid #ddd;
+}
+
+.markdown-body blockquote {
+    border-left: 4px solid #ddd;
+    padding-left: 1em;
+    color: #666;
+    margin: 1em 0;
+}
+
+.markdown-body ul {
+    padding-left: 2em;
+    list-style-type: square;
+}
+
+.markdown-body ol {
+    padding-left: 2em;
+}
+
+.markdown-body table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 1em 0;
+}
+
+.markdown-body td, 
+.markdown-body th {
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+    text-align: left;
+}
+
+.markdown-body img {
+    max-width: 95%;
+    height: auto;
+    display: block;
+    margin: 0.5em auto;
+    border: 1px solid #ddd;
+    padding: 2px;
+}

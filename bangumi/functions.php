@@ -99,7 +99,7 @@ function get_cache($key) {
     if (!file_exists($cache_file)) return false;
     
     $fp = fopen($cache_file, 'r');
-    flock($fp, LOCK_SH); // 共享锁
+    flock($fp, LOCK_SH);  
     
     $data = null;
     if ((time() - filemtime($cache_file)) < CACHE_EXPIRE) {
@@ -120,7 +120,7 @@ function set_cache($key, $data) {
     $temp_file = tempnam(CACHE_DIR, 'temp');
     
     $fp = fopen($temp_file, 'w');
-    flock($fp, LOCK_EX); // 排他锁
+    flock($fp, LOCK_EX); 
     
     fwrite($fp, json_encode($data));
     fflush($fp);
