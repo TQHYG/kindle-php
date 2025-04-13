@@ -1,0 +1,42 @@
+.hmenu {
+    display: block;
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.hbtn {
+    display: block;
+    width: 80%;
+    margin: 0 auto 15px; 
+    padding: 18px 20px;
+    background: #fff;
+    border: 2px solid #666;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #333;
+    font-size: 1.6em;
+    min-height: 60px;
+    text-align: center;
+    box-sizing: border-box;
+    transition: all 0.1s linear;
+}
+
+.hbtn::before {
+    content: '';
+    display: inline-block;
+    height: 60px;
+    vertical-align: middle;
+    margin-right: -0.25em;
+}
+
+.hbtn span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.hbtn:active {
+    background: #f8f8f8;
+    border-color: #444;
+}

@@ -1,0 +1,424 @@
+.main-btn {
+    display: block;
+    width: 80%;
+    margin: 0 auto 15px; 
+    padding: 18px 20px;
+    background: #fff;
+    border: 2px solid #666;
+    border-radius: 3px;
+    text-decoration: none;
+    color: #333;
+    font-size: 1.6em;
+    min-height: 60px;
+    text-align: center;
+    box-sizing: border-box;
+    transition: all 0.1s linear;
+}
+
+.content {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.content h2 {
+    text-align: center;
+    border-bottom: 2px solid #333;
+}
+
+.button-container {
+    margin-top: 40px;
+}
+
+.site-logo {
+    width: 50%;
+    height: auto;
+    margin: 0 auto 15px;
+    display: block;
+    padding: 3px;
+}
+
+.week-nav {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+.week-nav a {
+    display: table-cell;
+    width: auto;
+    height: 60px;
+    padding: 8px 5px;
+    text-align: center;
+    vertical-align: middle;
+    border: 2px solid #333;
+    border-right: none;
+    text-decoration: none;
+    white-space: normal;
+}
+
+.week-nav a:last-child {
+    border-right: 2px solid #333;
+}
+
+.weekday-btn, .selected-day {
+    display: inline-block;
+    width: 90px;
+    padding: 8px 5px;
+    margin: 0 2px;
+    text-align: center;
+    text-decoration: none;
+    border: 2px solid #333;
+    vertical-align: top;
+}
+
+.selected-day {
+    background: #000 !important;
+    color: #fff !important;
+    border-color: #000 !important;
+}
+
+.selected-day .cn-week,
+.selected-day .week-date {
+    color: #ccc !important;
+}
+
+.ja-week, .cn-week {
+    display: block;
+    line-height: 1.2;
+}
+
+.ja-week {
+    font-size: 1.1em;
+    margin-bottom: 3px;
+}
+
+.cn-week {
+    font-size: 0.9em;
+    color: #808080;
+}
+
+.week-date {
+    font-size: 0.8em;
+    color: #888;
+}
+
+.bangumi-item {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    padding: 15px 0;
+    border-bottom: 1px solid #ddd;
+    clear: both;
+    overflow: hidden;
+}
+
+.bangumi-cover {
+    float: left;
+    max-width: 100px;
+    max-height: 150px;
+    margin-right: 15px;
+    border: 1px solid #ccc;
+}
+
+.bangumi-topcover {
+    float: left;
+    max-height: 300px;
+    margin-right: 15px;
+    border: 1px solid #ccc;
+}
+
+.summary {
+    color: #000000;
+    font-size: 1em;
+    margin: 8px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
+    max-width: 100%;
+}
+
+.bangumi-info {
+    margin-left: 95px;
+}
+
+.title-cn {
+    margin: 0 0 5px 0;
+    font-size: 1.1em;
+}
+
+.title-jp {
+    margin: 0 0 8px 0;
+    color: #666;
+    font-size: 0.9em;
+}
+
+.meta-line {
+    margin-bottom: 5px;
+}
+
+.score {
+    color: #333;
+    margin-right: 15px;
+}
+
+.rank {
+    color: #666;
+}
+
+.air-date {
+    color: #888;
+    font-size: 0.85em;
+    margin: 0;
+}
+
+.no-data {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+}
+
+.article-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+.left-col {
+    float: left;
+    width: 30%;
+    padding-right: 20px;
+    box-sizing: border-box;
+}
+
+.right-col {
+    float: left;
+    width: 70%;
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+
+.main-cover {
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #333;
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
+
+.histogram {
+    margin: 15px 0;
+}
+
+.rating-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 10px 0;
+}
+
+.rating-table td {
+    padding: 4px 0;
+    vertical-align: middle;
+}
+
+.star {
+    width: 40px;
+    font-weight: bold;
+    color: #444;
+}
+
+.text-bar {
+    width: 200px;
+    max-width: 60%;
+    display: inline-block;
+    letter-spacing: 2px;
+    color: #555;
+}
+
+.count {
+    width: 50px;
+    text-align: right;
+    padding-right: 8px;
+}
+
+.percent {
+    width: 60px;
+    color: #777;
+}
+
+.basic-info dt {
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.basic-info dd {
+    margin-left: 0;
+    color: #666;
+}
+
+.tag-cloud {
+    line-height: 2;
+}
+
+.tag {
+    display: inline-block;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    padding: 2px 8px;
+    margin: 2px;
+    border-radius: 3px;
+    font-size: 0.9em;
+}
+
+.collection-box {
+    margin: 25px 0;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.stats-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0;
+    table-layout: fixed;
+}
+
+.stats-table th,
+.stats-table td {
+    text-align: center;
+    padding: 8px 3px;
+    vertical-align: middle;
+    font-size: 0.9em;
+}
+
+.stats-labels th {
+    font-weight: 1.1em;
+    color: #000000;
+    letter-spacing: 0.5px;
+    border-bottom: 2px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.stats-numbers td {
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #333;
+    padding-top: 8px;
+}
+
+
+
+/* 角色网格布局 */
+.character-grid {
+    margin: -5px;
+    overflow: hidden;
+}
+
+.character-item {
+    float: left;
+    width: 90px;
+    margin: 5px;
+    text-align: center;
+}
+
+.character-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #ddd;
+    object-fit: cover;
+}
+
+.character-name {
+    font-size: 0.85em;
+    height: 2.4em;
+    line-height: 1.2em;
+    margin: 3px 0;
+    word-break: break-all;
+}
+
+.character-role {
+    color: #666;
+    font-size: 0.75em;
+}
+
+/* 关联作品列表 */
+.related-item {
+    display: block;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+}
+
+.related-cover {
+    float: left;
+    width: 50px;
+    height: 70px;
+    margin-right: 12px;
+    border: 1px solid #ddd;
+}
+
+.related-info {
+    margin-left: 62px;
+}
+
+.related-title {
+    font-weight: bold;
+    font-size: 0.95em;
+    line-height: 1.2;
+}
+
+.related-title-cn {
+    color: #666;
+    font-size: 0.85em;
+    margin: 3px 0;
+}
+
+.related-meta {
+    font-size: 0.8em;
+    color: #888;
+}
+
+.related-type {
+    margin-right: 10px;
+}
+
+select.main-btn {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background: #fff;
+    background-size: 12px;
+}
+
+/* 年份输入表单样式 */
+.year-form {
+    margin: 20px 0;
+}
+
+.year-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #666;
+    margin: 100;
+}
+
+.pagination {
+    margin: 20px 0;
+    text-align: center;
+}
+
+.search-form {
+    text-align: center;
+    padding: 20px 0;
+}
+
+.search-form input[type="text"] {
+    font-size: 1.2em;
+    text-align: center;
+}
+
