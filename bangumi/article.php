@@ -144,7 +144,7 @@ foreach ($data['infobox'] ?? [] as $item) {
                         <td><?= number_format($collection['collect']) ?></td>
                         <td><?= number_format($collection['doing']) ?></td>
                         <td><?= number_format($collection['on_hold']) ?></td>
-                        <td><?= number_format($collection['dro']) ?></td>
+                        <td><?= number_format($collection['dropped']) ?></td>
                     </tr>
                 </table>
             </div>
