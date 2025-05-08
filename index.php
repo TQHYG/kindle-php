@@ -9,19 +9,33 @@
 </head>
 <body>
 
-    <?php
-    $hitokoto = '获取失败';
-    try {
-        $response = file_get_contents('https://v1.hitokoto.cn/');
-        if ($response !== false) {
+<?php
+        $hitokoto = '⚠️ 一言加载失败';
+        $apiUrl = 'https://international.v1.hitokoto.cn/';
+
+        // 初始化 cURL 会话
+        $ch = curl_init($apiUrl);
+
+        // 设置 cURL 选项
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 2); 
+        curl_setopt($ch, CURLOPT_FAILONERROR, true); 
+
+        try {
+            $response = curl_exec($ch);
+            if ($response === false) {
+                throw new Exception('Curl error: ' . curl_error($ch));
+            }
+
             $data = json_decode($response, true);
             if (isset($data['hitokoto']) && isset($data['from'])) {
                 $hitokoto = htmlspecialchars("{$data['hitokoto']} ——「{$data['from']}」");
             }
+        } catch (Exception $e) {
+            $hitokoto = "⚠️ 一言加载失败";
+        } finally {
+            curl_close($ch); 
         }
-    } catch (Exception $e) {
-        $hitokoto = "⚠️ 一言加载失败";
-    }
     ?>
 
     <h1 class="title">天穹何以高的Kindle工具站</h1>
