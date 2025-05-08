@@ -5,9 +5,12 @@ check_site_param();
 $site = $_GET['site'];
 $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
-$api_url = (strpos($site, 'http') === 0 ? $site : "http://$site") 
-         . "/wp-json/wp/v2/categories?page={$current_page}&per_page=4";
-$categories = json_decode(@file_get_contents($api_url), true);
+$protocol = detect_protocol($site); 
+$api_url = "{$protocol}://{$site}/wp-json/wp/v2/categories?page={$current_page}&per_page=4";
+$response = wp_curl_request($api_url);
+
+
+$categories = json_decode($response, true);
 
 $topbar = generate_topbar('分类目录');
 echo <<<HTML

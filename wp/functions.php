@@ -12,6 +12,31 @@ function generate_topbar($title) {
 HTML;
 }
 
+
+function wp_curl_request($url) {
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_MAXREDIRS => 3, 
+        CURLOPT_CONNECTTIMEOUT => 3, 
+        CURLOPT_TIMEOUT => 5, 
+        CURLOPT_SSL_VERIFYPEER => false, 
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36', 
+        CURLOPT_ENCODING => 'gzip, deflate'
+    ]);
+    
+    $response = curl_exec($ch);
+    $error = curl_error($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    
+    return $response;
+}
+
 function detect_protocol($domain) {
     $test_urls = [
         'https' => "https://{$domain}/wp-json/",
@@ -91,30 +116,17 @@ function fetch_wp_data($url) {
         'categories' => '/wp-json/wp/v2/categories'
     ];
     
-    $context = stream_context_create([
-        'ssl' => [
-            'verify_peer' => false,
-            'verify_peer_name' => false
-        ],
-        'http' => [
-            'timeout' => 10
-        ]
-    ]);
-
     $data = [];
     foreach ($endpoints as $key => $ep) {
         $full_url = rtrim($url, '/') . $ep;
-        $response = @file_get_contents($full_url, false, $context);
-        if ($response === false) {
-            $error = error_get_last();
-            return ['error' => "无法访问 {$full_url}，请确认网站是否是WordPres站点。     " . $error['message']];
-        }
-
+        $response = wp_curl_request($full_url);
+        
+        
         $decoded = json_decode($response, true);
         if (json_last_error() !== JSON_ERROR_NONE) {
-            return ['error' => "{$full_url} 返回了无效的JSON数据。"];
+            return ['error' => "{$full_url} 返回了无效的JSON数据"];
         }
-
+        
         $data[$key] = $decoded;
     }
 

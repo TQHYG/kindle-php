@@ -12,12 +12,16 @@ $current_page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
 
 $category_api = (strpos($site, 'http') === 0 ? $site : "http://$site") 
               . "/wp-json/wp/v2/categories/{$category_id}";
-$category_data = json_decode(@file_get_contents($category_api), true);
+
+$response = wp_curl_request($category_api);
+$category_data = json_decode($response, true);
 
 $posts_api = (strpos($site, 'http') === 0 ? $site : "http://$site")
            . "/wp-json/wp/v2/posts?categories={$category_id}"
            . "&page={$current_page}&per_page=4&orderby=date&order=desc";
-$posts = json_decode(@file_get_contents($posts_api), true);
+
+$response = wp_curl_request($posts_api);
+$posts = json_decode($response, true);
 
 $category_name = $category_data && !isset($category_data['code']) 
                ? strip_tags($category_data['name']) 

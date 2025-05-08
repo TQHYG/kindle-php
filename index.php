@@ -13,10 +13,8 @@
         $hitokoto = '⚠️ 一言加载失败';
         $apiUrl = 'https://international.v1.hitokoto.cn/';
 
-        // 初始化 cURL 会话
         $ch = curl_init($apiUrl);
 
-        // 设置 cURL 选项
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_TIMEOUT, 2); 
         curl_setopt($ch, CURLOPT_FAILONERROR, true); 

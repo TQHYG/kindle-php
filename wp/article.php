@@ -10,29 +10,11 @@ $site = $_GET['site'];
 $post_id = intval($_GET['id']);
 
 $api_url = (strpos($site, 'http') === 0 ? $site : "http://$site") . "/wp-json/wp/v2/posts/{$post_id}";
-$post_data = json_decode(@file_get_contents($api_url), true);
+$response = wp_curl_request($api_url);
 
-if (!$post_data || isset($post_data['code'])) {
-    $topbar = generate_topbar('文章加载失败');
-    echo <<<HTML
-<!DOCTYPE html>
-<html>
-<head>
-    <title>文章加载失败</title>
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="stylesheet" href="/css/wp.css">
-</head>
-<body>
-    $topbar
-    <div class="container">
-        <h2 class="error-msg">文章加载失败，请检查站点地址</h2>
-        <a href="posts.php?site={$site}" class="btn">« 返回文章列表</a>
-    </div>
-</body>
-</html>
-HTML;
-    exit;
-}
+
+
+$post_data = json_decode($response, true);
 
 $post_title = strip_tags($post_data['title']['rendered']);
 $topbar = generate_topbar($post_title);
