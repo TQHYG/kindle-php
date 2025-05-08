@@ -37,7 +37,8 @@ if ($search_term) {
              . "/wp-json/wp/v2/posts?search=" . urlencode($search_term)
              . "&page={$current_page}&per_page=4";
     
-    $response = @file_get_contents($api_url);
+
+    $response = wp_curl_request($api_url);
     $posts = $response ? json_decode($response, true) : null;
     
     if (!$posts || isset($posts['code'])) {

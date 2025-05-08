@@ -4,7 +4,12 @@ check_site_param();
 
 $site = $_GET['site'];
 $page = max(1, intval($_GET['page'] ?? 1));
-$posts = json_decode(file_get_contents("http://$site/wp-json/wp/v2/posts?page=$page&per_page=4"), true);
+$protocol = detect_protocol($site); 
+$api_url = "$protocol://$site/wp-json/wp/v2/posts?page=$page&per_page=4";
+
+$response = wp_curl_request($api_url);
+
+$posts = json_decode($response, true);
 
 $topbar = generate_topbar('最新文章');
 echo <<<HTML
