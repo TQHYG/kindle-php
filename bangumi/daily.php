@@ -12,18 +12,26 @@ try {
         throw new Exception('API返回数据格式异常');
     }
     
-    $weekdaysData = array_fill(1, 7, ['ja' => '月耀日', 'cn' => '星期一', 'date' => '--']);
-    foreach ($apiData as $dayData) {
-        if (!isset($dayData['weekday']['id'])) continue;
+    $weekdaysData = [];
+    $weekdays = [
+        1 => ['ja' => '月耀日', 'cn' => '星期一'],
+        2 => ['ja' => '火耀日', 'cn' => '星期二'], 
+        3 => ['ja' => '水耀日', 'cn' => '星期三'],
+        4 => ['ja' => '木耀日', 'cn' => '星期四'],
+        5 => ['ja' => '金耀日', 'cn' => '星期五'],
+        6 => ['ja' => '土耀日', 'cn' => '星期六'],
+        7 => ['ja' => '日耀日', 'cn' => '星期日']
+    ];
 
-        $id = $dayData['weekday']['id'];
-        $date = isset($dayData['items'][0]['air_date']) ? 
-            date('m-d', strtotime($dayData['items'][0]['air_date'])) : '--';
+    for ($i = 1; $i <= 7; $i++) {
+        $dayOffset = $i - (int)$currentDate->format('N');
+        $targetDate = clone $currentDate;
+        $targetDate->modify($dayOffset . ' days');
         
-        $weekdaysData[$id] = [
-            'ja' => $dayData['weekday']['ja'],
-            'cn' => $dayData['weekday']['cn'],
-            'date' => $date
+        $weekdaysData[$i] = [
+            'ja' => $weekdays[$i]['ja'],
+            'cn' => $weekdays[$i]['cn'], 
+            'date' => $targetDate->format('m-d')
         ];
     }
 
