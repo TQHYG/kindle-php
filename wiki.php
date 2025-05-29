@@ -47,6 +47,30 @@ function generate_topbar($title) {
 HTML;
 }
 
+function get_by_curl($url) {
+    $ch = curl_init();
+    curl_setopt_array($ch, [
+        CURLOPT_URL => $url,
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_FOLLOWLOCATION => true,
+        CURLOPT_MAXREDIRS => 3, 
+        CURLOPT_CONNECTTIMEOUT => 3, 
+        CURLOPT_TIMEOUT => 5, 
+        CURLOPT_SSL_VERIFYPEER => false, 
+        CURLOPT_SSL_VERIFYHOST => false,
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36', 
+        CURLOPT_ENCODING => 'gzip, deflate'
+    ]);
+    
+    $response = curl_exec($ch);
+    $error = curl_error($ch);
+    $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    
+    return $response;
+}
+
 function show_search_form() {
     $topbar = generate_topbar("维基搜索");
     return <<<HTML
@@ -79,7 +103,7 @@ HTML;
 function get_search_results($keyword, $lang = 'zh') {
     $domain = ($lang === 'en') ? 'en' : 'zh';
     $api_url = "https://{$domain}.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=".urlencode($keyword);
-    $response = json_decode(file_get_contents($api_url), true);
+    $response = json_decode(get_by_curl($api_url), true);
     return $response['query']['search'] ?? [];
 }
 
@@ -127,7 +151,7 @@ HTML;
 function show_article_detail($pageid, $lang = 'zh') {
     $domain = ($lang === 'en') ? 'en' : 'zh';
     $api_url = "https://{$domain}.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&pageids={$pageid}";
-    $response = json_decode(file_get_contents($api_url), true);
+    $response = json_decode(get_by_curl($api_url), true);
     $page = current($response['query']['pages']);
 
     $title = $page['title'] ?? '词条详情';
