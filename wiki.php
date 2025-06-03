@@ -26,6 +26,35 @@ $wiki_sites = [
     ]
 ];
 
+
+function show_error_page($title, $message, $try_url = '') {
+    $topbar = generate_topbar($title);
+    return <<<HTML
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <title>Kindle百科 - {$title}</title>
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/wiki.css">
+    </head>
+    <body>
+        {$topbar}
+        <div class="container">
+            <h2 class="error-title">{$title}</h2>
+            <div class="error-details">
+                <p>错误信息：{$message}</p>
+            </div>
+            <div class="error-actions">
+                <button onclick="location.reload()" class="btn">重试</button>
+                <button onclick="history.back()" class="btn">返回上一页</button>
+            </div>
+        </div>
+    </body>
+    </html>
+HTML;
+}
+
 function process_image($img_url) {
     $local_name = CACHE_DIR . md5($img_url) . '.jpg';
     if (!file_exists($local_name)) {
@@ -90,6 +119,10 @@ function get_by_curl($url) {
     $error = curl_error($ch);
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+
+    if ($error || $http_code != 200) {
+        throw new Exception("API请求失败: " . ($error ?: "HTTP {$http_code}"));
+    }
 
     return $response;
 }
@@ -214,12 +247,20 @@ function show_article_detail($pageid, $site = 'zh') {
     global $wiki_sites;
     
     if (!isset($wiki_sites[$site])) {
-        $site = 'zh'; // 默认使用中文维基
+        $site = 'zh'; 
     }
     
+    try{
     $api_url = $wiki_sites[$site]['api'] . "?action=query&format=json&prop=extracts&pageids={$pageid}";
     $response = json_decode(get_by_curl($api_url), true);
+    if (!isset($response['query']['pages'])) {
+        return show_error_page('数据异常', 'API返回数据格式不正确', $api_url);
+    }
+
     $page = current($response['query']['pages']);
+    if (empty($page['extract']) || strpos($page['extract'], 'NewPP limit report') !== false) {
+        return show_error_page('内容获取失败', '该页面内容无法正常显示，可能是百科站点限制');
+    }
 
     $title = $page['title'] ?? '词条详情';
     $topbar = generate_topbar($title);
@@ -244,6 +285,9 @@ function show_article_detail($pageid, $site = 'zh') {
     </body>
     </html>
 HTML;
+} catch (Exception $e) {
+    return show_error_page('遇到错误', $e->getMessage(), $api_url ?? '');
+}
 }
 
 header("Content-Type:text/html; charset=utf-8");
@@ -253,29 +297,15 @@ if(isset($_GET['pageid'])) {
     echo show_article_detail(intval($_GET['pageid']), $site);
 } elseif(isset($_GET['action']) && $_GET['action'] === 'random') {
     $site = isset($_GET['site']) ? $_GET['site'] : 'zh';
-    $random_pageid = get_random_page($site);
-    if ($random_pageid) {
-        echo show_article_detail($random_pageid, $site);
-    } else {
-        // 如果获取随机页面失败，显示错误信息
-        $topbar = generate_topbar("随机页面");
-        echo <<<HTML
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <title>Kindle百科 - 随机页面</title>
-            <meta name="viewport" content="width=device-width">
-            <link rel="stylesheet" href="/css/main.css">
-            <link rel="stylesheet" href="/css/wiki.css">
-        </head>
-        <body>
-            {$topbar}
-            <div class="container">
-                <p class="error-message">无法获取随机页面，请重试。</p>
-            </div>
-        </body>
-        </html>
-HTML;
+    try {
+        $random_pageid = get_random_page($site);
+        if ($random_pageid) {
+            echo show_article_detail($random_pageid, $site);
+        } else {
+            echo show_error_page('随机页面失败', '无法获取随机页面ID');
+        }
+    } catch (Exception $e) {
+        echo show_error_page('随机页面失败', $e->getMessage());
     }
 } else {
     $keyword = trim($_GET['q'] ?? '');
@@ -284,9 +314,13 @@ HTML;
     if(empty($keyword)) {
         echo show_search_form();
     } else {
-        $results = get_search_results($keyword, $site);
-        $GLOBALS['result_count'] = count($results);
-        echo show_search_results(htmlspecialchars($keyword), $results, $site);
+        try {
+            $results = get_search_results($keyword, $site);
+            $GLOBALS['result_count'] = count($results);
+            echo show_search_results(htmlspecialchars($keyword), $results, $site);
+        } catch (Exception $e) {
+            echo show_error_page('搜索失败', $e->getMessage());
+        }
     }
 }
 ?>

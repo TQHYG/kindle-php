@@ -43,7 +43,7 @@
     <div class="hmenu">
         <a href="clock/clock.html" class="hbtn"><span>屏幕时钟</span></a>
         <a href="timer.php" class="hbtn"><span>泡面倒计时</span></a>
-        <a href="wiki.php" class="hbtn"><span>维基百科检索</span></a>
+        <a href="wiki.php" class="hbtn"><span>百科检索</span></a>
         <a href="/bangumi/index.php" class="hbtn"><span>浏览Bangumi</span></a>
         <a href="wp/index.php" class="hbtn"><span>WordPress阅读</span></a>
         <a href="translate.php" class="hbtn"><span>多语言翻译</span></a>
