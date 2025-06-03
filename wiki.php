@@ -2,6 +2,30 @@
 define('CACHE_DIR', 'pic/');
 if (!file_exists(CACHE_DIR)) mkdir(CACHE_DIR, 0755, true);
 
+// 定义百科站点配置
+$wiki_sites = [
+    'zh' => [
+        'name' => '中文维基',
+        'api' => 'https://zh.wikipedia.org/w/api.php',
+        'domain' => 'zh.wikipedia.org'
+    ],
+    'en' => [
+        'name' => '英文维基',
+        'api' => 'https://en.wikipedia.org/w/api.php',
+        'domain' => 'en.wikipedia.org'
+    ],
+    'moegirl' => [
+        'name' => '萌娘百科',
+        'api' => 'https://moegirl.uk/api.php',
+        'domain' => 'moegirl.uk'
+    ],
+    'hmoegirl' => [
+        'name' => 'H萌百科',
+        'api' => 'https://hmoegirl.com/api.php',
+        'domain' => 'hmoegirl.com'
+    ]
+];
+
 function process_image($img_url) {
     $local_name = CACHE_DIR . md5($img_url) . '.jpg';
     if (!file_exists($local_name)) {
@@ -67,17 +91,24 @@ function get_by_curl($url) {
     $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
 
-    
     return $response;
 }
 
 function show_search_form() {
-    $topbar = generate_topbar("维基搜索");
+    global $wiki_sites;
+    
+    $options = '';
+    foreach ($wiki_sites as $key => $site) {
+        $selected = $key === 'zh' ? ' selected' : '';
+        $options .= "<option value=\"{$key}\"{$selected}>{$site['name']}</option>";
+    }
+    
+    $topbar = generate_topbar("百科搜索");
     return <<<HTML
     <!DOCTYPE html>
     <html>
     <head>
-        <title>Kindle维基百科</title>
+        <title>Kindle百科搜索</title>
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/wiki.css">
@@ -85,13 +116,13 @@ function show_search_form() {
     <body>
         {$topbar}
         <div class="container">
-            <h2 class="title">维基百科查询</h2>
+            <h2 class="title">百科查询</h2>
             <form action="wiki.php" method="get" class="search-form">
+                <select name="site" class="btn">
+                    {$options}
+                </select>
                 <input type="text" id="search-input" name="q" placeholder="输入查询关键词" required>
-                <div class="search-btns">
-                    <button type="submit" name="lang" value="zh" class="btn">中文搜索</button>
-                    <button type="submit" name="lang" value="en" class="btn">英文搜索</button>
-                </div>
+                <button type="submit" class="btn">搜索</button>
             </form>
         </div>
     </body>
@@ -99,22 +130,28 @@ function show_search_form() {
 HTML;
 }
 
-
-function get_search_results($keyword, $lang = 'zh') {
-    $domain = ($lang === 'en') ? 'en' : 'zh';
-    $api_url = "https://{$domain}.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=".urlencode($keyword);
+function get_search_results($keyword, $site = 'zh') {
+    global $wiki_sites;
+    
+    if (!isset($wiki_sites[$site])) {
+        $site = 'zh'; // 默认使用中文维基
+    }
+    
+    $api_url = $wiki_sites[$site]['api'] . "?action=query&format=json&list=search&srsearch=".urlencode($keyword);
     $response = json_decode(get_by_curl($api_url), true);
     return $response['query']['search'] ?? [];
 }
 
-function show_search_results($keyword, $results, $lang) {
-    $lang_display = ($lang === 'en') ? '英文' : '中文';
-    $topbar = generate_topbar("{$lang_display}搜索 - {$keyword}");
+function show_search_results($keyword, $results, $site) {
+    global $wiki_sites;
+    
+    $site_name = $wiki_sites[$site]['name'] ?? '百科';
+    $topbar = generate_topbar("{$site_name}搜索 - {$keyword}");
     $html = <<<HTML
     <!DOCTYPE html>
     <html>
     <head>
-        <title>Kindle维基百科</title>
+        <title>Kindle百科搜索</title>
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/wiki.css">
@@ -122,7 +159,7 @@ function show_search_results($keyword, $results, $lang) {
     <body>
         {$topbar}
         <div class="container">
-            <h3 class="search-title">找到{$GLOBALS['result_count']}条相关结果（{$lang_display}）</h3>
+            <h3 class="search-title">找到{$GLOBALS['result_count']}条相关结果（{$site_name}）</h3>
             <ul class="result-list">
 HTML;
     
@@ -130,7 +167,7 @@ HTML;
         $pageid = $item['pageid'];
         $html .= <<<ITEM
         <li class="result-item">
-            <a href="wiki.php?pageid={$pageid}&lang={$lang}" class="result-link">
+            <a href="wiki.php?pageid={$pageid}&site={$site}" class="result-link">
                 <span class="result-title">{$item['title']}</span>
                 <span class="result-snippet">{$item['snippet']}</span>
             </a>
@@ -147,10 +184,14 @@ HTML;
     return $html;
 }
 
-
-function show_article_detail($pageid, $lang = 'zh') {
-    $domain = ($lang === 'en') ? 'en' : 'zh';
-    $api_url = "https://{$domain}.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&pageids={$pageid}";
+function show_article_detail($pageid, $site = 'zh') {
+    global $wiki_sites;
+    
+    if (!isset($wiki_sites[$site])) {
+        $site = 'zh'; // 默认使用中文维基
+    }
+    
+    $api_url = $wiki_sites[$site]['api'] . "?action=query&format=json&prop=extracts&pageids={$pageid}";
     $response = json_decode(get_by_curl($api_url), true);
     $page = current($response['query']['pages']);
 
@@ -166,7 +207,7 @@ function show_article_detail($pageid, $lang = 'zh') {
     <!DOCTYPE html>
     <html>
     <head>
-        <title>Kindle维基百科</title>
+        <title>Kindle百科 - {$title}</title>
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" href="/css/main.css">
         <link rel="stylesheet" href="/css/wiki.css">
@@ -182,18 +223,18 @@ HTML;
 header("Content-Type:text/html; charset=utf-8");
 
 if(isset($_GET['pageid'])) {
-    $lang = isset($_GET['lang']) ? $_GET['lang'] : 'zh';
-    echo show_article_detail(intval($_GET['pageid']), $lang);
+    $site = isset($_GET['site']) ? $_GET['site'] : 'zh';
+    echo show_article_detail(intval($_GET['pageid']), $site);
 } else {
     $keyword = trim($_GET['q'] ?? '');
-    $lang = isset($_GET['lang']) ? $_GET['lang'] : 'zh';
+    $site = isset($_GET['site']) ? $_GET['site'] : 'zh';
     
     if(empty($keyword)) {
         echo show_search_form();
     } else {
-        $results = get_search_results($keyword, $lang);
+        $results = get_search_results($keyword, $site);
         $GLOBALS['result_count'] = count($results);
-        echo show_search_results(htmlspecialchars($keyword), $results, $lang);
+        echo show_search_results(htmlspecialchars($keyword), $results, $site);
     }
 }
 ?>
