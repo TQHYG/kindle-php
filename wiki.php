@@ -94,6 +94,22 @@ function get_by_curl($url) {
     return $response;
 }
 
+function get_random_page($site) {
+    global $wiki_sites;
+    
+    if (!isset($wiki_sites[$site])) {
+        $site = 'zh'; // 默认使用中文维基
+    }
+    
+    $api_url = $wiki_sites[$site]['api'] . "?action=query&format=json&list=random&rnnamespace=0&rnlimit=1";
+    $response = json_decode(get_by_curl($api_url), true);
+    
+    if (isset($response['query']['random'][0]['id'])) {
+        return $response['query']['random'][0]['id'];
+    }
+    return null;
+}
+
 function show_search_form() {
     global $wiki_sites;
     
@@ -122,9 +138,19 @@ function show_search_form() {
                     {$options}
                 </select>
                 <input type="text" id="search-input" name="q" placeholder="输入查询关键词" required>
-                <button type="submit" class="btn">搜索</button>
+                <div class="form-buttons">
+                    <button type="submit" class="btn">搜索</button>
+                    <button type="button" onclick="randomPage()" class="btn random-btn">随机页面</button>
+                </div>
             </form>
         </div>
+        
+        <script>
+        function randomPage() {
+            const site = document.querySelector('select[name="site"]').value;
+            window.location.href = 'wiki.php?action=random&site=' + site;
+        }
+        </script>
     </body>
     </html>
 HTML;
@@ -225,6 +251,32 @@ header("Content-Type:text/html; charset=utf-8");
 if(isset($_GET['pageid'])) {
     $site = isset($_GET['site']) ? $_GET['site'] : 'zh';
     echo show_article_detail(intval($_GET['pageid']), $site);
+} elseif(isset($_GET['action']) && $_GET['action'] === 'random') {
+    $site = isset($_GET['site']) ? $_GET['site'] : 'zh';
+    $random_pageid = get_random_page($site);
+    if ($random_pageid) {
+        echo show_article_detail($random_pageid, $site);
+    } else {
+        // 如果获取随机页面失败，显示错误信息
+        $topbar = generate_topbar("随机页面");
+        echo <<<HTML
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Kindle百科 - 随机页面</title>
+            <meta name="viewport" content="width=device-width">
+            <link rel="stylesheet" href="/css/main.css">
+            <link rel="stylesheet" href="/css/wiki.css">
+        </head>
+        <body>
+            {$topbar}
+            <div class="container">
+                <p class="error-message">无法获取随机页面，请重试。</p>
+            </div>
+        </body>
+        </html>
+HTML;
+    }
 } else {
     $keyword = trim($_GET['q'] ?? '');
     $site = isset($_GET['site']) ? $_GET['site'] : 'zh';
