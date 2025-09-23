@@ -1,0 +1,140 @@
+<!doctype html>
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+<script type="text/ecmascript" src="common/xhr.js"></script>
+<script type="text/ecmascript" src="chess.js"></script>
+<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/css/home.css">
+<link type="text/css" rel="stylesheet" href="css/chess.css" />
+<link type="text/css" rel="stylesheet" href="skins/gnomechess.css" />
+<title>Chess For Kindle</title>
+<script type="text/javascript">
+function initChess() {
+    chess.useAI(document.chessCtrl1.useAI.checked);
+    chess.setPromotion(getSelectedPromotion());
+    chess.setPlyDepth(parseInt(document.chessCtrl1.selDifficulty.value));
+    chess.placeById("chessDesk");
+    chess.setView(1);
+    chess.setOnMove(function() { hideControls(); });
+}
+function updateDifficulty() {
+    chess.setPlyDepth(parseInt(document.chessCtrl1.selDifficulty.value));
+}
+function getSelectedPromotion() {
+    const radios = document.getElementsByName('selPromo');
+    for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) return i;
+    }
+    return 0; // Default to Queen
+}
+function updatePromotion() {
+    chess.setPromotion(getSelectedPromotion());
+}
+function hideControls() {
+    document.getElementById('gameControls').style.display = 'none';
+}
+</script>
+<style type="text/css">
+hr {
+    width: 30%;
+    margin-top: 32px;
+    margin-bottom: 24px;
+}
+
+#chessToolBar {
+    width: 550px;
+    margin: 12px auto;
+    background-color: #969696;
+    box-shadow: inset 0 25px 27px -10px #BDBDBD;
+    border-bottom: 1px solid #424242;
+    text-align: center;
+    padding: 6px 3px 2px 3px;
+    border-radius: 8px;
+}
+
+#chessToolBar button {
+    margin: 2px;
+    padding: 8px 12px;
+    font-size: 18px;
+    font-weight: bold;
+    background-color: #B5B5B5;
+    border: 1px solid #888;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+#chessToolBar button:hover {
+    background-color: #A0A0A0;
+}
+
+#chessDesk {
+    clear: both;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.radio-group {
+    text-align: center;
+    margin-top: 10px;
+}
+.radio-group label {
+    margin-right: 12px;
+    font-size: 16px;
+}
+</style>
+</head>
+
+<body onload="initChess();">
+    <div class="top-bar">
+        <a href="javascript:history.back()" class="nav-btn">« 返回</a>
+        <a href="/" class="nav-btn"># 主页</a>
+        <span class="divider">|</span>
+        <div class="title-wrapper">
+            <h1 class="page-title">游戏</h1>
+        </div>
+    </div>
+<h1 style="text-align:center;">Chess For Kindle</h1>
+
+<form name="chessCtrl1" onsubmit="return(false);">
+<div id="gameControls" style="text-align:center;">
+[&nbsp;
+<input id="useAIAsk" name="useAI" type="checkbox" onclick="chess.useAI(this.checked);" /> 
+<label for="useAIAsk">Play against Computer</label> |
+Difficulty: 
+<select name="selDifficulty" onchange="updateDifficulty();">
+    <option value="1">Very Easy</option>
+    <option value="2">Easy</option>
+    <option value="3" selected>Normal</option>
+    <option value="4">Hard</option>
+    <option value="5">Very Hard</option>
+</select>
+&nbsp;]
+</div>
+
+<div class="radio-group">
+    Promotion to:
+    <input type="radio" name="selPromo" value="0" checked onchange="updatePromotion();"><label>Queen</label>
+    <input type="radio" name="selPromo" value="1" onchange="updatePromotion();"><label>Rook</label>
+    <input type="radio" name="selPromo" value="2" onchange="updatePromotion();"><label>Bishop</label>
+    <input type="radio" name="selPromo" value="3" onchange="updatePromotion();"><label>Knight</label>
+</div>
+</form>
+
+<div id="chessToolBar">
+    <button onclick="chess.navigate(-1);" title="Undo Move">&#8592; Undo</button>
+    <button onclick="chess.navigate(1);" title="Redo Move">Redo &#8594;</button>
+</div>
+
+<div id="chessDesk"></div>
+
+<hr />
+
+<p style="text-align:center;">[&nbsp;
+<a href="https://github.com/DanielN06/ChessForKindle" target="_blank">View Source</a> |
+<a href="https://discord.com" target="_blank">Contact me: ohmygawddd</a>
+&nbsp;]</p>
+
+</body>
+</html>
