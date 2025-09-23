@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
     <head>
+        <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <meta name="HandheldFriendly" content="true" />
         <link rel="stylesheet" href="/css/main.css">
@@ -264,11 +265,10 @@ function solve() {
             <a href="/" class="nav-btn"># 主页</a>
             <span class="divider">|</span>
             <div class="title-wrapper">
-                <h1 class="page-title">游戏</h1>
+                <h1 class="page-title">Kindle数独</h1>
             </div>
         </div>
         <div class="entry" id="title">
-            <h1 id="title_text">Kindle Sudoku - Local Web App</h1>
             <button onclick="enterNumber(this.innerHTML)">1</button><button onclick="enterNumber(this.innerHTML)">2</button><button onclick="enterNumber(this.innerHTML)">3</button><button onclick="enterNumber(this.innerHTML)">4</button><button onclick="enterNumber(this.innerHTML)">5</button>
             <button onclick="enterNumber(this.innerHTML)">6</button><button onclick="enterNumber(this.innerHTML)">7</button><button onclick="enterNumber(this.innerHTML)">8</button><button onclick="enterNumber(this.innerHTML)">9</button>
             <button onclick="enterNumber(this.innerHTML)">X</button>
@@ -294,11 +294,11 @@ function solve() {
             <button style="width:200px" id="make_notes" onclick="toggleNotes()">Notes</button>
             <div class="hline"></div>
             <h2>Generate:</h2>
-            <button onclick="generate('medium')">Easy</button>
-            <button onclick="generate('very-hard')">Medium</button>
-            <button onclick="generate('insane')">Hard</button>
+            <button onclick="generate('medium')">简单</button>
+            <button onclick="generate('very-hard')">中等</button>
+            <button onclick="generate('insane')">难</button>
             <div class="hline"></div>
-            <button onclick="solve()">Check</button>
+            <button onclick="solve()">检查</button>
         </div>
 <!--sudoku.js-->
         <script>
