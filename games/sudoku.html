@@ -3,6 +3,8 @@
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <meta name="HandheldFriendly" content="true" />
+        <link rel="stylesheet" href="/css/main.css">
+        <link rel="stylesheet" href="/css/home.css">
         <title>Sudoku</title>
         <style>
 
@@ -257,6 +259,14 @@ function solve() {
         </script>
     </head>
     <body>
+        <div class="top-bar">
+            <a href="javascript:history.back()" class="nav-btn">« 返回</a>
+            <a href="/" class="nav-btn"># 主页</a>
+            <span class="divider">|</span>
+            <div class="title-wrapper">
+                <h1 class="page-title">游戏</h1>
+            </div>
+        </div>
         <div class="entry" id="title">
             <h1 id="title_text">Kindle Sudoku - Local Web App</h1>
             <button onclick="enterNumber(this.innerHTML)">1</button><button onclick="enterNumber(this.innerHTML)">2</button><button onclick="enterNumber(this.innerHTML)">3</button><button onclick="enterNumber(this.innerHTML)">4</button><button onclick="enterNumber(this.innerHTML)">5</button>
