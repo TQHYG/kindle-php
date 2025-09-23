@@ -46,6 +46,7 @@
         <a href="wiki.php" class="hbtn"><span>百科检索</span></a>
         <a href="/bangumi/index.php" class="hbtn"><span>浏览Bangumi</span></a>
         <a href="wp/index.php" class="hbtn"><span>WordPress阅读</span></a>
+        <a href="games/index.php" class="hbtn"><span>游戏</span></a>
         <a href="translate.php" class="hbtn"><span>多语言翻译</span></a>
         <a href="/github/index.php" class="hbtn"><span>浏览Github</span></a>
     </div>
