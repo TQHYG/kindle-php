@@ -11,14 +11,14 @@
 <body>
     <div class="top-bar">
         <a href="/" class="nav-btn"># 主页</a>
-        <a href="/clock/clock24.html" class="nav-btn">% 24小时制</a>
-        <a href="/clock/clocko.html" id="rotateLink" class="nav-btn">@ 旋转显示</a>
+        <a href="/clock/clock.html" class="nav-btn">% 12小时制</a>
+        <a href="javascript:void(0)" id="rotateLink" class="nav-btn">@ 旋转显示</a>
         <span class="divider">|</span>
         <div class="title-wrapper">
             <h1 class="page-title">时间</h1>
         </div>
     </div>
-    <div class="page">
+    <div class="page" id="main">
         <div id="log_container">
         </div>
         <div id="top">
@@ -26,11 +26,6 @@
 
         <div id="middle">
             <div id="time_container">
-                <div id="apmOuterWrapper">
-                    <div id="apmInnerWrapper">
-                        <div id="apm"></div>
-                    </div>
-                </div>
                 <div class="time" id="time"></div>
                 <div class="date" id="date"></div>
             </div>
@@ -41,6 +36,22 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const rotateLink = document.getElementById('rotateLink');
+            const targetDiv = document.getElementById('main');
+            let currentAngle = 0;
+            function rotateTargetDiv() {
+                currentAngle += 90;
+                if (currentAngle >= 360) {
+                    currentAngle = 0;
+                }
+                targetDiv.style.transform = `rotate(${currentAngle}deg)`;
+            }
+            if (rotateLink) {
+                rotateLink.addEventListener('click', rotateTargetDiv);
+            }
+        });
+
         function createXHR() {
             var xhr = null;
             if (window.XMLHttpRequest) {
@@ -58,18 +69,11 @@
 
             var hour = date.getHours()
 
-            var apm = '上<br>午'
-            if (hour > 12) {
-                apm = '下<br>午'
-                hour -= 12
-            }
-
             var timeString = hour + ':' + ('0' + date.getMinutes()).slice(-2)
             var dateString = (date.getMonth() + 1) + '月' + date.getDate() + '日'
             var weekList = ['日', '一', '二', '三', '四', '五', '六']
             var weekString = '星期' + weekList[date.getDay()]
 
-            document.getElementById('apm').innerHTML = apm
             document.getElementById("time").innerHTML = timeString
             document.getElementById("date").innerHTML = dateString + " " + weekString
         }
