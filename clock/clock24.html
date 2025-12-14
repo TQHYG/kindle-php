@@ -18,7 +18,7 @@
             <h1 class="page-title">时间</h1>
         </div>
     </div>
-    <div class="page">
+    <div class="page" id="main">
         <div id="log_container">
         </div>
         <div id="top">
@@ -51,7 +51,7 @@
                 rotateLink.addEventListener('click', rotateTargetDiv);
             }
         });
-        
+
         function createXHR() {
             var xhr = null;
             if (window.XMLHttpRequest) {
